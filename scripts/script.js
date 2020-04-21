@@ -14,7 +14,7 @@ $(document).ready(function(){
 
   queryButton.click(function(){
     var queryVal = $("#input-search").val();
-    $(".films").find("ul").remove()
+    $(".films").find(".movie").remove()
 
     $.ajax({
       url: "https://api.themoviedb.org/3/search/movie/",
@@ -30,21 +30,34 @@ $(document).ready(function(){
         var arrayResults = data.results;
         console.log(arrayResults);
 
-        for (var i = 0; i < arrayResults.length; i++) {
+        if (arrayResults.length === 0){
+          $(".films").html("<p id='no-results'> Nessun risultato trovato </p>")
+        } else {
 
-          var objTemplate = {
-            titolo: arrayResults[i].title,
-            titoloOriginale: arrayResults[i].original_title,
-            lingua: arrayResults[i].original_language,
-            voto: arrayResults[i].vote_average,
+          for (var i = 0; i < arrayResults.length; i++) {
+
+            var objTemplate = {
+              titolo: arrayResults[i].title,
+              titoloOriginale: arrayResults[i].original_title,
+              lingua: arrayResults[i].original_language,
+              voto: arrayResults[i].vote_average,
+              img: "https://image.tmdb.org/t/p/w220_and_h330_face" + arrayResults[i].poster_path
+
+            }
+
+            console.log(objTemplate.img);
+
+            if (arrayResults[i].poster_path == null){
+              objTemplate.img = "img/question-mark.png"
+            }
+
+            var templateHtml = template(objTemplate);
+
+            $(".films").append(templateHtml)
 
           }
-
-          var templateHtml = template(objTemplate);
-
-          $(".films").append(templateHtml)
-
         }
+
       },
 
       error: function(richiesta, stato, errori){
