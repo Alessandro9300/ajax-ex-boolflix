@@ -7,13 +7,14 @@
 
 
 $(document).ready(function(){
+
   var queryButton = $("#button-search");
   var template = Handlebars.compile($("#info-movies").html())
 
-  console.log(template);
 
   queryButton.click(function(){
     var queryVal = $("#input-search").val();
+    $(".films").find("ul").remove()
 
     $.ajax({
       url: "https://api.themoviedb.org/3/search/movie/",
@@ -22,10 +23,12 @@ $(document).ready(function(){
         api_key: "81c480213993ff0316b1f525174620e3",
         query: queryVal,
         page: 1
+
       },
       success: function(data){
 
         var arrayResults = data.results;
+        console.log(arrayResults);
 
         for (var i = 0; i < arrayResults.length; i++) {
 
@@ -45,7 +48,7 @@ $(document).ready(function(){
       },
 
       error: function(richiesta, stato, errori){
-        alert(richiesta, stato, errori)
+        // alert(richiesta, stato, errori)
       }
 
     })
