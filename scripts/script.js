@@ -14,7 +14,7 @@ $(document).ready(function(){
 
   queryButton.click(function(){
     var queryVal = $("#input-search").val();
-    $(".films").find(".movie").remove()
+    $(".films").find(".movie" && "p").remove()
 
     $.ajax({
       url: "https://api.themoviedb.org/3/search/movie/",
