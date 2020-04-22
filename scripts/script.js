@@ -48,8 +48,7 @@ $(document).ready(function(){
               titoloOriginale: arrayResults[i].original_title,
               lingua: bandiera,
               img: "https://image.tmdb.org/t/p/w220_and_h330_face" + arrayResults[i].poster_path,
-              genere: "movie",
-              voto: arrayResults[i].vote_average
+              genere: "movie"
             }
 
             if (arrayResults[i].poster_path == null){
@@ -107,8 +106,7 @@ $(document).ready(function(){
               titoloOriginale: arrayResults[i].original_name,
               lingua: bandiera,
               img: "https://image.tmdb.org/t/p/w220_and_h330_face" + arrayResults[i].poster_path,
-              genere: "serie-tv",
-              voto: arrayResults[i].vote_average
+              genere: "serie-tv"
             }
 
             if (arrayResults[i].poster_path == null){
