@@ -41,6 +41,24 @@ ul{
 }
 
 #bandiera{
+  margin-left: 5px;
   width: 30px;
   height: 20px;
+}
+
+.votazione{
+  display: flex;
+}
+
+.stelle{
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.fa-star{
+  margin: 0 2px;
+}
+
+.lingua{
+  display: flex;
 }

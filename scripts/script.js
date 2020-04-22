@@ -15,6 +15,7 @@ $(document).ready(function(){
     var queryVal = $("#input-search").val();
     $(".films").html("");
 
+
     $.ajax({
       url: "https://api.themoviedb.org/3/search/movie/",
       method: "get",
@@ -27,7 +28,6 @@ $(document).ready(function(){
       success: function(data){
         var bandiera;
         var arrayResults = data.results;
-        console.log(arrayResults);
 
         if (arrayResults.length === 0){
           $(".films").html("<p id='no-results'> Nessun risultato trovato </p>")
@@ -47,24 +47,22 @@ $(document).ready(function(){
               titolo: arrayResults[i].title,
               titoloOriginale: arrayResults[i].original_title,
               lingua: bandiera,
-              voto: arrayResults[i].vote_average,
               img: "https://image.tmdb.org/t/p/w220_and_h330_face" + arrayResults[i].poster_path
 
             }
-
-            console.log(objTemplate.img);
-
-
 
             if (arrayResults[i].poster_path == null){
               objTemplate.img = "img/question-mark.png"
             }
 
             var templateHtml = template(objTemplate);
-
             $(".films").append(templateHtml)
 
+            votoStelle(arrayResults[i].vote_average, i)
+
           }
+
+
         }
 
       },
@@ -75,12 +73,28 @@ $(document).ready(function(){
 
     })
 
+
+
+
     $("#input-search").val("");
   })
 
 
 
+  function votoStelle(voto, ripetizioni) {
 
+    votoCeil = Math.round(voto / 2)
+
+    for (var j = 0; j < votoCeil; j++) {
+
+      numero = (ripetizioni + 1);
+
+      $(".movie:nth-child(" + numero +") .stelle").find(".fa-star:first").remove();
+    
+      $(".movie:nth-child(" + numero +") .stelle").append("<i class='fas fa-star'></i>")
+
+    }
+  }
 
 
 

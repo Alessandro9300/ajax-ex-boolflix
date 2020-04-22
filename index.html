@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>bool-fix</title>
     <link rel="stylesheet" href="style/style.css">
+    <script src="https://kit.fontawesome.com/bb3bb5d849.js" crossorigin="anonymous"></script>
   </head>
   <body>
 
@@ -15,7 +16,7 @@
     </div>
 
 
-    <img src="" alt="">
+
 
     <script id="info-movies" type="text/x-handlebars-template">
       <div class="movie">
@@ -25,8 +26,16 @@
         <ul>
           <li>Titolo: {{titolo}}</li>
           <li>Titolo originale: {{titoloOriginale}}</li>
-          <li>Lingua originale: {{{lingua}}}
-          <li>Voto: {{voto}}</li>
+          <li class="lingua">Lingua originale: {{{lingua}}}
+          <li class="votazione">
+            <span> Voto: </span>
+            <span class="stelle">
+            <i class='far fa-star'></i>
+            <i class='far fa-star'></i>
+            <i class='far fa-star'></i>
+            <i class='far fa-star'></i>
+            <i class='far fa-star'></i>
+            </span>
         </ul>
 
 
