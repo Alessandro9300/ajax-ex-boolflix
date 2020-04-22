@@ -65,8 +65,3 @@ ul{
 .lingua{
   display: flex;
 }
-
-
-.serie-tv:nth-child(1){
-  background: red;
-}

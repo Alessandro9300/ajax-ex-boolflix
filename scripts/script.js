@@ -14,6 +14,7 @@ $(document).ready(function(){
   queryButton.click(function(){
     var queryVal = $("#input-search").val();
     $(".films").html("");
+    $(".serie").html("");
 
     // chiamata ajax film
     $.ajax({
