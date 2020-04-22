@@ -15,7 +15,7 @@ $(document).ready(function(){
     var queryVal = $("#input-search").val();
     $(".films").html("");
 
-
+    // chiamata ajax film
     $.ajax({
       url: "https://api.themoviedb.org/3/search/movie/",
       method: "get",
@@ -28,9 +28,9 @@ $(document).ready(function(){
         var bandiera;
         var arrayResults = data.results;
 
-        if (arrayResults.length === 0){
-          $(".films").html("<p id='no-results'> Nessun risultato trovato </p>")
-        } else {
+        // if (arrayResults.length === 0){
+        //   $(".films").html("<p id='no-results'> Nessun risultato trovato </p>")
+        // } else {
 
           for (var i = 0; i < arrayResults.length; i++) {
 
@@ -46,7 +46,9 @@ $(document).ready(function(){
               titolo: arrayResults[i].title,
               titoloOriginale: arrayResults[i].original_title,
               lingua: bandiera,
-              img: "https://image.tmdb.org/t/p/w220_and_h330_face" + arrayResults[i].poster_path
+              img: "https://image.tmdb.org/t/p/w220_and_h330_face" + arrayResults[i].poster_path,
+              genere: "movie",
+              voto: arrayResults[i].vote_average
             }
 
             if (arrayResults[i].poster_path == null){
@@ -56,13 +58,73 @@ $(document).ready(function(){
             var templateHtml = template(objTemplate);
             $(".films").append(templateHtml)
 
-            votoStelle(arrayResults[i].vote_average, i)
+            votoStelle(arrayResults[i].vote_average, i, objTemplate.genere)
 
           }
 
-        }
+        // }
 
       },
+
+      error: function(richiesta, stato, errori){
+        // alert(richiesta, stato, errori)
+      }
+
+    })
+
+
+    // chiamata ajax serie tv
+    $.ajax({
+      url: "https://api.themoviedb.org/3/search/tv/",
+      method: "get",
+      data: {
+        api_key: "81c480213993ff0316b1f525174620e3",
+        query: queryVal,
+        page: 1
+      },
+      success: function(data){
+
+        var bandiera;
+        var arrayResults = data.results;
+
+        // if (arrayResults.length === 0){
+        //   $(".films").html("<p id='no-results'> Nessun risultato trovato </p>")
+        // } else {
+
+          for (var i = 0; i < arrayResults.length; i++) {
+
+            if (arrayResults[i].original_language == "it"){
+              bandiera = '<img id="bandiera" src="img/italia.gif" alt="">'
+            } else if (arrayResults[i].original_language == "en") {
+              bandiera = '<img id="bandiera" src="img/inghilterra.png" alt="">';
+            } else {
+              bandiera = arrayResults[i].original_language;
+            }
+
+            var objTemplate = {
+              titolo: arrayResults[i].name,
+              titoloOriginale: arrayResults[i].original_name,
+              lingua: bandiera,
+              img: "https://image.tmdb.org/t/p/w220_and_h330_face" + arrayResults[i].poster_path,
+              genere: "serie-tv",
+              voto: arrayResults[i].vote_average
+            }
+
+            if (arrayResults[i].poster_path == null){
+              objTemplate.img = "img/question-mark.png"
+            }
+
+            var templateHtml = template(objTemplate);
+            $(".serie").append(templateHtml)
+
+            votoStelle(arrayResults[i].vote_average, i, objTemplate.genere)
+
+          }
+        //
+        // }
+
+      },
+
 
       error: function(richiesta, stato, errori){
         // alert(richiesta, stato, errori)
@@ -74,16 +136,16 @@ $(document).ready(function(){
     $("#input-search").val("");
   })
 
-  function votoStelle(voto, ripetizioni) {
+  function votoStelle(voto, ripetizioni, genere) {
 
     votoCeil = Math.round(voto / 2)
     numero = (ripetizioni + 1);
 
     for (var j = 0; j < votoCeil; j++) {
 
-      $(".movie:nth-child(" + numero +") .stelle").find(".fa-star:first-child").remove();
+      $("." + genere + ":nth-child(" + numero +") .stelle").find(".fa-star:first-child").remove();
 
-      $(".movie:nth-child(" + numero +") .stelle").append("<i class='fas fa-star'></i>")
+      $("."+ genere + ":nth-child(" + numero +") .stelle").append("<i class='fas fa-star'></i>")
 
     }
   }
