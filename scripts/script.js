@@ -23,7 +23,6 @@ $(document).ready(function(){
         api_key: "81c480213993ff0316b1f525174620e3",
         query: queryVal,
         page: 1
-
       },
       success: function(data){
         var bandiera;
@@ -48,7 +47,6 @@ $(document).ready(function(){
               titoloOriginale: arrayResults[i].original_title,
               lingua: bandiera,
               img: "https://image.tmdb.org/t/p/w220_and_h330_face" + arrayResults[i].poster_path
-
             }
 
             if (arrayResults[i].poster_path == null){
@@ -62,7 +60,6 @@ $(document).ready(function(){
 
           }
 
-
         }
 
       },
@@ -74,34 +71,21 @@ $(document).ready(function(){
     })
 
 
-
-
     $("#input-search").val("");
   })
-
-
 
   function votoStelle(voto, ripetizioni) {
 
     votoCeil = Math.round(voto / 2)
+    numero = (ripetizioni + 1);
 
     for (var j = 0; j < votoCeil; j++) {
 
-      numero = (ripetizioni + 1);
+      $(".movie:nth-child(" + numero +") .stelle").find(".fa-star:first-child").remove();
 
-      $(".movie:nth-child(" + numero +") .stelle").find(".fa-star:first").remove();
-    
       $(".movie:nth-child(" + numero +") .stelle").append("<i class='fas fa-star'></i>")
 
     }
   }
-
-
-
-
-
-
-
-
 
 })

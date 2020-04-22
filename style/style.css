@@ -58,6 +58,9 @@ ul{
 .fa-star{
   margin: 0 2px;
 }
+.fas.fa-star{
+  color: rgb(240,230,140);
+}
 
 .lingua{
   display: flex;
