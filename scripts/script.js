@@ -26,48 +26,13 @@ $(document).ready(function(){
         page: 1
       },
       success: function(data){
-        var bandiera;
-        var arrayResults = data.results;
 
-        // if (arrayResults.length === 0){
-        //   $(".films").html("<p id='no-results'> Nessun risultato trovato </p>")
-        // } else {
-
-          for (var i = 0; i < arrayResults.length; i++) {
-
-            if (arrayResults[i].original_language == "it"){
-              bandiera = '<img id="bandiera" src="img/italia.gif" alt="">'
-            } else if (arrayResults[i].original_language == "en") {
-              bandiera = '<img id="bandiera" src="img/inghilterra.png" alt="">';
-            } else {
-              bandiera = arrayResults[i].original_language;
-            }
-
-            var objTemplate = {
-              titolo: arrayResults[i].title,
-              titoloOriginale: arrayResults[i].original_title,
-              lingua: bandiera,
-              img: "https://image.tmdb.org/t/p/w220_and_h330_face" + arrayResults[i].poster_path,
-              genere: "movie"
-            }
-
-            if (arrayResults[i].poster_path == null){
-              objTemplate.img = "img/question-mark.png"
-            }
-
-            var templateHtml = template(objTemplate);
-            $(".films").append(templateHtml)
-
-            votoStelle(arrayResults[i].vote_average, i, objTemplate.genere)
-
-          }
-
-        // }
+      funzioneApi(data, "film");
 
       },
 
       error: function(richiesta, stato, errori){
-        // alert(richiesta, stato, errori)
+        alert(richiesta, stato, errori)
       }
 
     })
@@ -84,46 +49,9 @@ $(document).ready(function(){
       },
       success: function(data){
 
-        var bandiera;
-        var arrayResults = data.results;
-
-        // if (arrayResults.length === 0){
-        //   $(".films").html("<p id='no-results'> Nessun risultato trovato </p>")
-        // } else {
-
-          for (var i = 0; i < arrayResults.length; i++) {
-
-            if (arrayResults[i].original_language == "it"){
-              bandiera = '<img id="bandiera" src="img/italia.gif" alt="">'
-            } else if (arrayResults[i].original_language == "en") {
-              bandiera = '<img id="bandiera" src="img/inghilterra.png" alt="">';
-            } else {
-              bandiera = arrayResults[i].original_language;
-            }
-
-            var objTemplate = {
-              titolo: arrayResults[i].name,
-              titoloOriginale: arrayResults[i].original_name,
-              lingua: bandiera,
-              img: "https://image.tmdb.org/t/p/w220_and_h330_face" + arrayResults[i].poster_path,
-              genere: "serie-tv"
-            }
-
-            if (arrayResults[i].poster_path == null){
-              objTemplate.img = "img/question-mark.png"
-            }
-
-            var templateHtml = template(objTemplate);
-            $(".serie").append(templateHtml)
-
-            votoStelle(arrayResults[i].vote_average, i, objTemplate.genere)
-
-          }
-        //
-        // }
+        funzioneApi(data, "serie-tv");
 
       },
-
 
       error: function(richiesta, stato, errori){
         // alert(richiesta, stato, errori)
@@ -131,22 +59,86 @@ $(document).ready(function(){
 
     })
 
-
     $("#input-search").val("");
   })
 
-  function votoStelle(voto, ripetizioni, genere) {
+  function funzioneApi(arrayApi, tipo) {
 
-    votoCeil = Math.round(voto / 2)
-    numero = (ripetizioni + 1);
+    var arrayResults = arrayApi.results;
 
-    for (var j = 0; j < votoCeil; j++) {
+    for (var i = 0; i < arrayResults.length; i++) {
 
-      $("." + genere + ":nth-child(" + numero +") .stelle").find(".fa-star:first-child").remove();
+      var objTemplate = {
+        lingua: bandiere(arrayResults[i].original_language),
+        img: poster(arrayResults[i].poster_path),
+        voto: votoStelle(arrayResults[i].vote_average),
+        tipologia: tipo
+      }
 
-      $("."+ genere + ":nth-child(" + numero +") .stelle").append("<i class='fas fa-star'></i>")
+      if (tipo == "film"){
+        objTemplate.titolo = arrayResults[i].title;
+        objTemplate.titoloOriginale = arrayResults[i].original_title;
+
+      } else if (tipo == "serie-tv"){
+        objTemplate.titolo = arrayResults[i].name;
+        objTemplate.titoloOriginale = arrayResults[i].original_name;
+      }
+
+      var templateHtml = template(objTemplate);
+      $(".films").append(templateHtml)
 
     }
+
+  }
+
+  function votoStelle(voto) {
+
+    votoCeil = Math.round(voto / 2)
+
+    var stelline;
+
+    for (var i = 0; i < 5; i++) {
+
+      if (i < votoCeil){
+        stelline += "<i class='fas fa-star'></i>"
+      } else {
+        stelline += "<i class='far fa-star'></i>"
+      }
+
+    }
+
+    return stelline;
+
+  }
+
+  function bandiere(apiLingua){
+
+    var outputBandiere;
+
+    var lingue = ["it", "en", "es", "pt"];
+
+    if (lingue.includes(apiLingua)){
+
+      outputBandiere = '<img id="bandiera" src="img/' + apiLingua + '.png " alt="">'
+
+      return outputBandiere
+
+    }
+
+    return apiLingua;
+
+  }
+
+  function poster(apiPoster){
+
+    var locandina = "https://image.tmdb.org/t/p/w220_and_h330_face" + apiPoster;
+
+    if (apiPoster == null){
+      locandina = "img/question-mark.jpg"
+    }
+
+    return locandina;
+
   }
 
 })

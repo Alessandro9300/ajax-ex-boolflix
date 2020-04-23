@@ -9,22 +9,17 @@
   <body>
 
     <input id="input-search" type="text" name="" value="" placeholder="Cerca un film...">
-    <button id="button-search" type="button" name="button"> Cerca</button>
+    <button id="button-search" type="button" name="button">Cerca</button>
 
     <div class="films">
 
     </div>
 
-    <div class="serie">
-
-    </div>
-
-
     <script id="info-movies" type="text/x-handlebars-template">
-      <div class="{{genere}}">
+      <div class="movie">
 
         <img src="{{img}}" alt="">
-  
+
         <ul>
           <li>Titolo: {{titolo}}</li>
           <li>Titolo originale: {{titoloOriginale}}</li>
@@ -32,14 +27,11 @@
           <li class="votazione">
             <span> Voto: </span>
             <span class="stelle">
-            <i class='far fa-star'></i>
-            <i class='far fa-star'></i>
-            <i class='far fa-star'></i>
-            <i class='far fa-star'></i>
-            <i class='far fa-star'></i>
+            {{{voto}}}
             </span>
+          </li>
+          <li>Tipologia: {{tipologia}}</li>
         </ul>
-
 
       </div>
 
