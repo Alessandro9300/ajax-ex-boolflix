@@ -11,9 +11,9 @@ $(document).ready(function(){
   var template = Handlebars.compile($("#info-movies").html())
 
   //home film
-  chiamataAjax("https://api.themoviedb.org/3/movie/popular/", 4, ".films");
+  chiamataAjax("https://api.themoviedb.org/3/movie/popular/", 4, ".films", "Film");
   //home serie-tv
-  chiamataAjax("https://api.themoviedb.org/3/tv/popular/", 4, ".films-2")
+  chiamataAjax("https://api.themoviedb.org/3/tv/popular/", 4, ".films-2", "Serie-tv")
   //reload with logo
   $(".logo").click(function(){
     location.reload();
@@ -22,36 +22,29 @@ $(document).ready(function(){
   inputText.keypress(function(key){
 
     if (key.keyCode == 13){
-
-      var queryVal = inputText.val();
-      //pulisco tutto
-      clearHome(queryVal);
-      // chiamata ajax film
-      chiamataAjax("https://api.themoviedb.org/3/search/movie/", 20, ".films",  queryVal, "Film");
-
-      // chiamata ajax serie tv
-      chiamataAjax("https://api.themoviedb.org/3/search/tv/", 20, ".films", queryVal, "Serie-tv");
-
-      $("#input-search").val("");
-
+      eventoCerca();
     }
 
   })
   // comando con il click
-  queryButton.click(function(){
+  queryButton.click(
+    eventoCerca
+  );
 
+  //funzione per fare tutto quanto
+  function eventoCerca(){
+    // prendo valore input
     var queryVal = inputText.val();
-    //pulisco tutto
+    // pulisco tutto
     clearHome(queryVal);
     // chiamata ajax film
-    chiamataAjax("https://api.themoviedb.org/3/search/movie/", 20, ".films",  queryVal, "Film");
+    chiamataAjax("https://api.themoviedb.org/3/search/movie/", 20, ".films","Film", queryVal);
 
     // chiamata ajax serie tv
-    chiamataAjax("https://api.themoviedb.org/3/search/tv/", 20, ".films", queryVal, "Serie-tv");
-
-    $("#input-search").val("");
-  })
-
+    chiamataAjax("https://api.themoviedb.org/3/search/tv/", 20, ".films","Serie-tv", queryVal );
+    // pulisco casella input text
+    inputText.val("");
+  }
   //funzione per appendere l'api nell'html
   function funzioneApi(arrayApi, tipo, numeroCicli, appendi) {
 
@@ -87,7 +80,7 @@ $(document).ready(function(){
 
     votoCeil = Math.round(voto / 2)
 
-    var stelline;
+    var stelline = "";
 
     for (var i = 0; i < 5; i++) {
 
@@ -133,7 +126,7 @@ $(document).ready(function(){
 
   }
   //funzione per fare la chiamata ajax
-  function chiamataAjax(url, numeroCicli, appendi, queryVar, tipo) {
+  function chiamataAjax(url, numeroCicli, appendi, tipo, queryVar ) {
     $.ajax({
       url: url,
       method: "get",
