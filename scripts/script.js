@@ -14,17 +14,21 @@ $(document).ready(function(){
   chiamataAjax("https://api.themoviedb.org/3/movie/popular/", 4, ".films", "Film");
   //home serie-tv
   chiamataAjax("https://api.themoviedb.org/3/tv/popular/", 4, ".films-2", "Serie-tv")
+  //home film top rated
+  chiamataAjax("https://api.themoviedb.org/3/movie/top_rated", 4, ".films-3", "Film")
+  //home film in uscita
+  chiamataAjax("https://api.themoviedb.org/3/movie/upcoming", 4, ".films-4", "Film")
+
+
   //reload with logo
   $(".logo").click(function(){
     location.reload();
   })
   // comando con l'invio
   inputText.keypress(function(key){
-
     if (key.keyCode == 13){
       eventoCerca();
     }
-
   })
   // comando con il click
   queryButton.click(
@@ -153,6 +157,8 @@ $(document).ready(function(){
     $(".films").html("");
     $(".intesta-2").remove();
     $(".films-2").remove();
+    $(".films-3").remove();
+    $(".films-4").remove();
     $(".intesta").html("Ecco i risultati per: " + val)
   }
 

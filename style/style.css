@@ -101,7 +101,7 @@ ul{
 
   /* main */
 
-.films, .films-2{
+.films, .films-2, .films-3, .films-4{
   width: 1600px;
   margin: 15px auto;
   display: flex;
