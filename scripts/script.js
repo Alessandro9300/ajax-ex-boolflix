@@ -6,21 +6,41 @@
 
 
 $(document).ready(function(){
-
+  var inputText = $("#input-search");
   var queryButton = $("#button-search");
   var template = Handlebars.compile($("#info-movies").html())
 
-
+  //home film
   chiamataAjax("https://api.themoviedb.org/3/movie/popular/", 4, ".films");
-
+  //home serie-tv
   chiamataAjax("https://api.themoviedb.org/3/tv/popular/", 4, ".films-2")
-
+  //reload with logo
   $(".logo").click(function(){
     location.reload();
   })
+  // comando con l'invio
+  inputText.keypress(function(key){
 
+    if (key.keyCode == 13){
+
+      var queryVal = inputText.val();
+      //pulisco tutto
+      clearHome(queryVal);
+      // chiamata ajax film
+      chiamataAjax("https://api.themoviedb.org/3/search/movie/", 20, ".films",  queryVal, "Film");
+
+      // chiamata ajax serie tv
+      chiamataAjax("https://api.themoviedb.org/3/search/tv/", 20, ".films", queryVal, "Serie-tv");
+
+      $("#input-search").val("");
+
+    }
+
+  })
+  // comando con il click
   queryButton.click(function(){
-    var queryVal = $("#input-search").val();
+
+    var queryVal = inputText.val();
     //pulisco tutto
     clearHome(queryVal);
     // chiamata ajax film
@@ -32,6 +52,7 @@ $(document).ready(function(){
     $("#input-search").val("");
   })
 
+  //funzione per appendere l'api nell'html
   function funzioneApi(arrayApi, tipo, numeroCicli, appendi) {
 
     var arrayResults = arrayApi.results;
@@ -61,7 +82,7 @@ $(document).ready(function(){
     }
 
   }
-
+  //funzione per transformare il voto in stelle
   function votoStelle(voto) {
 
     votoCeil = Math.round(voto / 2)
@@ -81,7 +102,7 @@ $(document).ready(function(){
     return stelline;
 
   }
-
+  //funzione per generare le bandiere
   function bandiere(apiLingua){
 
     var outputBandiere;
@@ -99,7 +120,7 @@ $(document).ready(function(){
     return apiLingua;
 
   }
-
+  //funzione per generare la copertina
   function poster(apiPoster){
 
     var locandina = "https://image.tmdb.org/t/p/w500" + apiPoster;
@@ -111,8 +132,7 @@ $(document).ready(function(){
     return locandina;
 
   }
-
-
+  //funzione per fare la chiamata ajax
   function chiamataAjax(url, numeroCicli, appendi, queryVar, tipo) {
     $.ajax({
       url: url,
@@ -135,7 +155,7 @@ $(document).ready(function(){
     })
 
   }
-
+  //funzion per clearare la home quando si cerca qualcosa
   function clearHome(val){
     $(".films").html("");
     $(".intesta-2").remove();
