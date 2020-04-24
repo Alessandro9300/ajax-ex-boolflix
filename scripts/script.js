@@ -27,12 +27,12 @@ $(document).ready(function(){
       },
       success: function(data){
 
-      funzioneApi(data, "film");
+      funzioneApi(data, "Film");
 
       },
 
       error: function(richiesta, stato, errori){
-        alert(richiesta, stato, errori)
+        // alert(richiesta, stato, errori)
       }
 
     })
@@ -48,9 +48,7 @@ $(document).ready(function(){
         page: 1
       },
       success: function(data){
-
-        funzioneApi(data, "serie-tv");
-
+        funzioneApi(data, "Serie-tv");
       },
 
       error: function(richiesta, stato, errori){
@@ -72,14 +70,15 @@ $(document).ready(function(){
         lingua: bandiere(arrayResults[i].original_language),
         img: poster(arrayResults[i].poster_path),
         voto: votoStelle(arrayResults[i].vote_average),
-        tipologia: tipo
+        tipologia: tipo,
+        trama: arrayResults[i].overview
       }
 
-      if (tipo == "film"){
+      if (tipo == "Film"){
         objTemplate.titolo = arrayResults[i].title;
         objTemplate.titoloOriginale = arrayResults[i].original_title;
 
-      } else if (tipo == "serie-tv"){
+      } else if (tipo == "Serie-tv"){
         objTemplate.titolo = arrayResults[i].name;
         objTemplate.titoloOriginale = arrayResults[i].original_name;
       }
@@ -131,7 +130,7 @@ $(document).ready(function(){
 
   function poster(apiPoster){
 
-    var locandina = "https://image.tmdb.org/t/p/w220_and_h330_face" + apiPoster;
+    var locandina = "https://image.tmdb.org/t/p/w500" + apiPoster;
 
     if (apiPoster == null){
       locandina = "img/question-mark.jpg"
@@ -140,5 +139,5 @@ $(document).ready(function(){
     return locandina;
 
   }
-
+// https://image.tmdb.org/t/p/w220_and_h330_face
 })
