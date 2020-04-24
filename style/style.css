@@ -101,9 +101,9 @@ ul{
 
   /* main */
 
-.films{
+.films, .films-2{
   width: 1600px;
-  margin: 50px auto;
+  margin: 15px auto;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -120,7 +120,7 @@ ul{
   position: relative;
 }
 
-.movie:hover{
+.movie:hover, .logo:hover{
   cursor: pointer;
 }
 
@@ -145,4 +145,13 @@ ul{
 
 .info-media li{
   margin: 10px 0;
+}
+
+
+.intestazione{
+  width: 1600px;
+  margin: auto;
+  font-size: 25px;
+  font-weight: 600;
+  padding: 17px;
 }

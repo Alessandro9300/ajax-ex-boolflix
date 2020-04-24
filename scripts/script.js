@@ -11,60 +11,34 @@ $(document).ready(function(){
   var template = Handlebars.compile($("#info-movies").html())
 
 
+  chiamataAjax("https://api.themoviedb.org/3/movie/popular/", 4, ".films");
+
+  chiamataAjax("https://api.themoviedb.org/3/tv/popular/", 4, ".films-2")
+
+  $(".logo").click(function(){
+    location.reload();
+  })
+
   queryButton.click(function(){
     var queryVal = $("#input-search").val();
     $(".films").html("");
-    $(".serie").html("");
+    $(".intesta-2").remove();
+    $(".intesta").html("Ecco i risultati per: " + queryVal)
 
     // chiamata ajax film
-    $.ajax({
-      url: "https://api.themoviedb.org/3/search/movie/",
-      method: "get",
-      data: {
-        api_key: "81c480213993ff0316b1f525174620e3",
-        query: queryVal,
-        page: 1
-      },
-      success: function(data){
-
-      funzioneApi(data, "Film");
-
-      },
-
-      error: function(richiesta, stato, errori){
-        // alert(richiesta, stato, errori)
-      }
-
-    })
-
+    chiamataAjax("https://api.themoviedb.org/3/search/movie/", 20, ".film",  queryVal, "Film");
 
     // chiamata ajax serie tv
-    $.ajax({
-      url: "https://api.themoviedb.org/3/search/tv/",
-      method: "get",
-      data: {
-        api_key: "81c480213993ff0316b1f525174620e3",
-        query: queryVal,
-        page: 1
-      },
-      success: function(data){
-        funzioneApi(data, "Serie-tv");
-      },
-
-      error: function(richiesta, stato, errori){
-        // alert(richiesta, stato, errori)
-      }
-
-    })
+    chiamataAjax("https://api.themoviedb.org/3/search/tv/", 20, ".film", queryVal, "Serie-tv");
 
     $("#input-search").val("");
   })
 
-  function funzioneApi(arrayApi, tipo) {
+  function funzioneApi(arrayApi, tipo, numeroCicli, appendi) {
 
     var arrayResults = arrayApi.results;
 
-    for (var i = 0; i < arrayResults.length; i++) {
+    for (var i = 0; i < numeroCicli; i++) {
 
       var objTemplate = {
         lingua: bandiere(arrayResults[i].original_language),
@@ -84,7 +58,7 @@ $(document).ready(function(){
       }
 
       var templateHtml = template(objTemplate);
-      $(".films").append(templateHtml)
+      $(appendi).append(templateHtml)
 
     }
 
@@ -139,5 +113,31 @@ $(document).ready(function(){
     return locandina;
 
   }
-// https://image.tmdb.org/t/p/w220_and_h330_face
+
+
+  function chiamataAjax(url, numeroCicli, appendi, queryVar, tipo) {
+    $.ajax({
+      url: url,
+      method: "get",
+      data: {
+        api_key: "81c480213993ff0316b1f525174620e3",
+        query: queryVar,
+        page: 1
+      },
+      success: function(data){
+
+      funzioneApi(data, tipo, numeroCicli, appendi);
+
+      },
+
+      error: function(richiesta, stato, errori){
+        // alert(richiesta, stato, errori)
+      }
+
+    })
+
+  }
+
+
+
 })
