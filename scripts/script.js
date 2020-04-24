@@ -23,13 +23,14 @@ $(document).ready(function(){
     var queryVal = $("#input-search").val();
     $(".films").html("");
     $(".intesta-2").remove();
+    $(".films-2").remove();
     $(".intesta").html("Ecco i risultati per: " + queryVal)
 
     // chiamata ajax film
-    chiamataAjax("https://api.themoviedb.org/3/search/movie/", 20, ".film",  queryVal, "Film");
+    chiamataAjax("https://api.themoviedb.org/3/search/movie/", 20, ".films",  queryVal, "Film");
 
     // chiamata ajax serie tv
-    chiamataAjax("https://api.themoviedb.org/3/search/tv/", 20, ".film", queryVal, "Serie-tv");
+    chiamataAjax("https://api.themoviedb.org/3/search/tv/", 20, ".films", queryVal, "Serie-tv");
 
     $("#input-search").val("");
   })
