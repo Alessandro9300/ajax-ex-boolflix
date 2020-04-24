@@ -21,11 +21,8 @@ $(document).ready(function(){
 
   queryButton.click(function(){
     var queryVal = $("#input-search").val();
-    $(".films").html("");
-    $(".intesta-2").remove();
-    $(".films-2").remove();
-    $(".intesta").html("Ecco i risultati per: " + queryVal)
-
+    //pulisco tutto
+    clearHome(queryVal);
     // chiamata ajax film
     chiamataAjax("https://api.themoviedb.org/3/search/movie/", 20, ".films",  queryVal, "Film");
 
@@ -139,6 +136,11 @@ $(document).ready(function(){
 
   }
 
-
+  function clearHome(val){
+    $(".films").html("");
+    $(".intesta-2").remove();
+    $(".films-2").remove();
+    $(".intesta").html("Ecco i risultati per: " + val)
+  }
 
 })
