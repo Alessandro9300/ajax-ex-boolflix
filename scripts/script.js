@@ -61,8 +61,10 @@ $(document).ready(function(){
         img: poster(arrayResults[i].poster_path),
         voto: votoStelle(arrayResults[i].vote_average),
         tipologia: tipo,
-        trama: arrayResults[i].overview
+        trama:  tramaBreve(arrayResults[i].overview)
       }
+
+
 
       if (tipo == "Film"){
         objTemplate.titolo = arrayResults[i].title;
@@ -137,7 +139,8 @@ $(document).ready(function(){
       data: {
         api_key: "81c480213993ff0316b1f525174620e3",
         query: queryVar,
-        page: 1
+        page: 1,
+        language: "it"
       },
       success: function(data){
 
@@ -161,5 +164,17 @@ $(document).ready(function(){
     $(".films-4").remove();
     $(".intesta").html("Ecco i risultati per: " + val)
   }
+  // funzione per abbrevviare la trama se troppo lunga
+  function tramaBreve(trama){
 
+    var arrayTrama = trama.split(" ");
+
+    if (arrayTrama.length > 80){
+      var tramaSpliced = arrayTrama.splice(80, 1000, "[...]")
+      console.log(arrayTrama.length);
+      return arrayTrama.join(" ");
+    }
+
+    return trama;
+  }
 })

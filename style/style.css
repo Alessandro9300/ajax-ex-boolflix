@@ -154,3 +154,7 @@ ul{
   font-weight: 600;
   padding: 17px;
 }
+
+#trama-span{
+  display: none;
+}
